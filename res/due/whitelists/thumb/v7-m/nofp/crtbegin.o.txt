@@ -1,0 +1,10 @@
+__EH_FRAME_BEGIN__
+__deregister_frame_info
+__do_global_dtors_aux
+__do_global_dtors_aux_fini_array_entry
+__dso_handle
+__frame_dummy_init_array_entry
+__register_frame_info
+completed.8914
+frame_dummy
+object.8919

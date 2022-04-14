@@ -1,0 +1,6 @@
+.cache
+.pio
+.relink
+.vscode
+.DS_Store
+compile_commands*
