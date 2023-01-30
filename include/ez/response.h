@@ -1,8 +1,6 @@
 #ifndef EZ_RESPONSE_H
 #define EZ_RESPONSE_H
 
-#include "ez-config.h"
-
 #include <cstddef>
 #include <cstdint>
 

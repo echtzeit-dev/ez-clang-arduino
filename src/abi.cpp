@@ -1,6 +1,5 @@
 #include "ez/abi.h"
 
-#include "ez/alloc.h"
 #include "ez/assert.h"
 #include "ez/response.h"
 #include "ez/protocol.h"
