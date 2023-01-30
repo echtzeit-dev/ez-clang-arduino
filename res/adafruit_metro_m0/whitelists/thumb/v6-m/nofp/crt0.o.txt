@@ -1,0 +1,13 @@
+         U __bss_end__
+         U __bss_start__
+         w __libc_fini_array
+         U __libc_init_array
+         w __stack
+00000000 T _mainCRTStartup
+00000000 T _start
+         w atexit
+         U exit
+         w hardware_init_hook
+         U main
+         U memset
+         w software_init_hook
