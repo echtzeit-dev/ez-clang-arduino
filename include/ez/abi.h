@@ -15,12 +15,10 @@ extern "C" {
 
 #define EZ_CLANG_RPC_ENDPOINT(Name) char *Name(const char *Data, size_t Size)
 
-// Mandatory RPC endpoints:
+// RPC endpoints:
 EZ_CLANG_RPC_ENDPOINT(__ez_clang_rpc_lookup);
 EZ_CLANG_RPC_ENDPOINT(__ez_clang_rpc_commit);
 EZ_CLANG_RPC_ENDPOINT(__ez_clang_rpc_execute);
-
-// Optional RPC endpoints:
 EZ_CLANG_RPC_ENDPOINT(__ez_clang_rpc_mem_read_cstring);
 
 #undef EZ_CLANG_RPC_ENDPOINT
