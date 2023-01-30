@@ -1,0 +1,31 @@
+COLLECT_GCC_OPTIONS='-v' '-o' '.pio/build/teensylc/firmware.elf' '-T' 'res/teensylc/ez-clang.ld' '-mthumb' '-mcpu=cortex-m0plus' '-specs=nano.specs' '-fsingle-precision-constant' '-Og' '-g2' '-ggdb2' '-L/home/ez/.platformio/packages/framework-arduinoteensy/cores/teensy3' '-L.pio/build/teensylc'
+ /home/ez/.platformio/packages/toolchain-gccarmnoneeabi@1.50401.190816/bin/../lib/gcc/arm-none-eabi/5.4.1/collect2 -plugin /home/ez/.platformio/packages/toolchain-gccarmnoneeabi@1.50401.190816/bin/../lib/gcc/arm-none-eabi/5.4.1/liblto_plugin.so -plugin-opt=/home/ez/.platformio/packages/toolchain-gccarmnoneeabi@1.50401.190816/bin/../lib/gcc/arm-none-eabi/5.4.1/lto-wrapper -plugin-opt=-fresolution=/tmp/cc43edRe.res -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lg_nano -plugin-opt=-pass-through=-lc_nano -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc_nano --sysroot=/home/ez/.platformio/packages/toolchain-gccarmnoneeabi@1.50401.190816/bin/../arm-none-eabi -X -o .pio/build/teensylc/firmware.elf /home/ez/.platformio/packages/toolchain-gccarmnoneeabi@1.50401.190816/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/crti.o /home/ez/.platformio/packages/toolchain-gccarmnoneeabi@1.50401.190816/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/crtbegin.o /home/ez/.platformio/packages/toolchain-gccarmnoneeabi@1.50401.190816/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m/crt0.o -L/home/ez/.platformio/packages/framework-arduinoteensy/cores/teensy3 -L.pio/build/teensylc -L/home/ez/.platformio/packages/toolchain-gccarmnoneeabi@1.50401.190816/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m -L/home/ez/.platformio/packages/toolchain-gccarmnoneeabi@1.50401.190816/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv6-m -L/home/ez/.platformio/packages/toolchain-gccarmnoneeabi@1.50401.190816/bin/../arm-none-eabi/lib/armv6-m -L/home/ez/.platformio/packages/toolchain-gccarmnoneeabi@1.50401.190816/bin/../lib/gcc/arm-none-eabi/5.4.1 -L/home/ez/.platformio/packages/toolchain-gccarmnoneeabi@1.50401.190816/bin/../lib/gcc -L/home/ez/.platformio/packages/toolchain-gccarmnoneeabi@1.50401.190816/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib -L/home/ez/.platformio/packages/toolchain-gccarmnoneeabi@1.50401.190816/bin/../arm-none-eabi/lib --gc-sections --relax --defsym=__rtc_localtime=1670852920 .pio/build/teensylc/src/abi.cpp.o .pio/build/teensylc/src/assert.cpp.o .pio/build/teensylc/src/message-loop.cpp.o .pio/build/teensylc/src/protocol.cpp.o .pio/build/teensylc/src/response.cpp.o .pio/build/teensylc/src/serialize.cpp.o .pio/build/teensylc/src/symbols.cpp.o .pio/build/teensylc/src/variant/generic.cpp.o --start-group .pio/build/teensylc/libFrameworkArduino.a -larm_cortexM0l_math -lstdc++_nano --end-group -lstdc++_nano -lm --start-group -lgcc -lg_nano -lc_nano --end-group --start-group -lgcc -lc_nano --end-group /home/ez/.platformio/packages/toolchain-gccarmnoneeabi@1.50401.190816/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/crtend.o /home/ez/.platformio/packages/toolchain-gccarmnoneeabi@1.50401.190816/bin/../lib/gcc/arm-none-eabi/5.4.1/armv6-m/crtn.o -T res/teensylc/ez-clang.ld
+
+...
+
+> cd ez-clang-arduino/res/teensylc/whitelists
+> $NM ~/.platformio/packages/toolchain-gccarmnoneeabi@1.50401.190816/arm-none-eabi/lib/libarm_cortexM0l_math.a > libarm_cortexM0l_math.a.txt
+
+> mkdir -p arm-none-eabi/lib/armv6-m
+> $NM ~/.platformio/packages/toolchain-gccarmnoneeabi@1.50401.190816/arm-none-eabi/lib/armv6-m/libm.a > armv6-m/libm.a.txt
+> $NM ~/.platformio/packages/toolchain-gccarmnoneeabi@1.50401.190816/arm-none-eabi/lib/armv6-m/libc_nano.a > armv6-m/libc_nano.a.txt
+> $NM ~/.platformio/packages/toolchain-gccarmnoneeabi@1.50401.190816/arm-none-eabi/lib/armv6-m/libg_nano.a > armv6-m/libg_nano.a.txt
+> $NM ~/.platformio/packages/toolchain-gccarmnoneeabi@1.50401.190816/arm-none-eabi/lib/armv6-m/libstdc++_nano.a > armv6-m/libstdc++_nano.a.txt
+> $NM ~/.platformio/packages/toolchain-gccarmnoneeabi@1.50401.190816/arm-none-eabi/lib/armv6-m/crt0.o > armv6-m/crt0.o.txt
+
+> mkdir -p gcc/arm-none-eabi/5.4.1/armv6-m
+> $NM ~/.platformio/packages/toolchain-gccarmnoneeabi@1.50401.190816/lib/gcc/arm-none-eabi/5.4.1/armv6-m/crtbegin.o > gcc/arm-none-eabi/5.4.1/armv6-m/crtbegin.o.txt
+> $NM ~/.platformio/packages/toolchain-gccarmnoneeabi@1.50401.190816/lib/gcc/arm-none-eabi/5.4.1/armv6-m/crtend.o > gcc/arm-none-eabi/5.4.1/armv6-m/crtend.o.txt
+> $NM ~/.platformio/packages/toolchain-gccarmnoneeabi@1.50401.190816/lib/gcc/arm-none-eabi/5.4.1/armv6-m/crtn.o > gcc/arm-none-eabi/5.4.1/armv6-m/crtn.o.txt
+> $NM ~/.platformio/packages/toolchain-gccarmnoneeabi@1.50401.190816/lib/gcc/arm-none-eabi/5.4.1/armv6-m/crti.o > gcc/arm-none-eabi/5.4.1/armv6-m/crti.o.txt
+> $NM ~/.platformio/packages/toolchain-gccarmnoneeabi@1.50401.190816/lib/gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a > gcc/arm-none-eabi/5.4.1/armv6-m/libgcc.a.txt
+
+...
+
+> ls -lh ez-clang-arduino/.pio/build/teensylc/firmware.*
+-rwxrwxr-x 1 ez ez 307K Dez 12 17:27 ez-clang-arduino/.pio/build/teensylc/firmware.elf
+-rwxrwxr-x 1 ez ez 293K Dez 12 17:31 ez-clang-arduino/.pio/build/teensylc/firmware.elf.bak
+-rw-rw-r-- 1 ez ez 110K Dez 12 17:31 ez-clang-arduino/.pio/build/teensylc/firmware.hex
+> ls -lh resource-dir/teensylc/firmware.*
+-rwxrwxr-x 1 ez ez 293K Dez 11 21:10 resource-dir/teensylc/firmware.elf
+-rw-rw-r-- 1 ez ez  37K Dez 11 21:10 resource-dir/teensylc/firmware.hex

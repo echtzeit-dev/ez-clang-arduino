@@ -1,0 +1,2 @@
+_mainCRTStartup
+_start

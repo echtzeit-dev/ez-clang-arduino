@@ -1,0 +1,9 @@
+__EH_FRAME_BEGIN__
+__JCR_LIST__
+__do_global_dtors_aux
+__do_global_dtors_aux_fini_array_entry
+__dso_handle
+__frame_dummy_init_array_entry
+completed.8603
+frame_dummy
+object.8608
