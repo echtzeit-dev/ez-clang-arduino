@@ -5,6 +5,7 @@
 #include "ez/support.h"
 
 #include <cstdarg>
+#include <cstddef>
 #include <cstdio>
 #include <cstring>
 
@@ -97,7 +98,10 @@ uint32_t formatlnBytesHex(char Buffer[], const char *Bytes,
 
   char *Out = Buffer;
   constexpr const char *HexDigits = "0123456789ABCDEF";
-  size_t iMax = BytesRemaining < LineMax ? BytesRemaining : LineMax;
+  size_t iMax = BytesRemaining;
+  if (LineMax > 0 && LineMax < BytesRemaining)
+    iMax = LineMax;
+
   for (size_t i = 0; i < iMax; i += 1) {
     Out[0] = HexDigits[Bytes[i] >> 4];    // lo hex
     Out[1] = HexDigits[Bytes[i] & 0x0F];  // hi hex

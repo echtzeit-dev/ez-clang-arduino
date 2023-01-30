@@ -23,6 +23,6 @@ const char *errorGetBuffer(uint32_t &Size);
 char *errorFinalize(uint32_t Length);
 
 uint32_t formatlnBytesHex(char Buffer[], const char *Bytes,
-                          size_t BytesRemaining, size_t LineMax);
+                          size_t BytesRemaining, size_t LineMax = 0);
 
 #endif // EZ_RESPONSE_H
