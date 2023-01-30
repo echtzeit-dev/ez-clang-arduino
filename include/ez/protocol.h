@@ -36,9 +36,6 @@ struct HeaderInfo {
 };
 
 bool receiveMessage(char Buffer[], uint32_t BufferSize, HeaderInfo &Msg);
-//                    uint32_t &OpCode,
-//                    uint32_t &SeqID, uint32_t &PayloadBytes,
-//                    RPCEndpoint *&Handler);
 
 void sendMessage(EPCOpCode OpC, uint32_t SeqID, const char Payload[],
                  uint32_t NumArgBytes);

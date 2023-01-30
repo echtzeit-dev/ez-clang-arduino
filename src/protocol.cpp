@@ -54,35 +54,71 @@ void sendHangupMessage(uint8_t ErrCode) {
 }
 
 bool receiveMessage(char Buffer[], uint32_t BufferSize, HeaderInfo &Msg) {
-  if (!receiveBytes(Buffer, MessageHeaderSize))
+  if (!device_receiveBytes(Buffer, MessageHeaderSize))
     fail("Error receiving message header. Shutting down.");
 
-  // Parse all header fields, so we can reuse the buffer for the payload
-  const char *Data = Buffer;
-  Data += readSize(Data, Msg.PayloadBytes);
-  Msg.PayloadBytes -= MessageHeaderSize;
-  Data += readUInt64as32(Data, Msg.OpCode);
-  Data += readUInt64as32(Data, Msg.SeqID);
-  uint32_t TagAddr;
-  Data += readAddr(Data, TagAddr);
+  // All header fields are 64-bit
+  uint64_t Bytes;
+  uint64_t OpCode;
+  uint64_t SeqID;
+  uint64_t TagAddr;
 
-  if (Msg.PayloadBytes > BufferSize) {
+  // Parse them all, so we can re-use the buffer for the payload
+  const char *Data = Buffer;
+  Data += readUInt64(Data, Bytes);
+  Data += readUInt64(Data, OpCode);
+  Data += readUInt64(Data, SeqID);
+  Data += readUInt64(Data, TagAddr);
+
+  // If any of these values exceeds the 32-bit range, we got a malformed header
+  if (Bytes >= 0x100000000 || OpCode >= 0x100000000 ||
+      SeqID >= 0x100000000 || TagAddr >= 0x100000000) {
+    // Each hex line shows 8 Bytes (16 chars) + 8 spaces + newline + zero
+    char BytesHex[26];
+    char OpCodeHex[26];
+    char SeqIDHex[26];
+    char TagAddrHex[26];
+    formatlnBytesHex(BytesHex, Buffer, 8);
+    formatlnBytesHex(OpCodeHex, Buffer + 8, 8);
+    formatlnBytesHex(SeqIDHex, Buffer + 16, 8);
+    formatlnBytesHex(TagAddrHex, Buffer + 24, 8);
+    errorEx(Buffer, BufferSize,
+            "Message header invalid: All values must be in 32-bit range. "
+            "Received bytes interpretation:\n"
+            "  Length:  %s"
+            "  Opcode:  %s"
+            "  SeqID:   %s"
+            "  TagAddr: %s"
+            , BytesHex, OpCodeHex, SeqIDHex, TagAddrHex);
+    device_flushReceiveBuffer();
+    return false;
+  }
+
+  // Check that payload contents fits the buffer
+  Bytes -= MessageHeaderSize;
+  if (Bytes > BufferSize) {
     errorEx(Buffer, BufferSize,
             "Message payload (%lu bytes) exceeds buffer size (%lu bytes)",
-            Msg.PayloadBytes, BufferSize);
-    flushReceiveBuffer();
+            Bytes, BufferSize);
+    device_flushReceiveBuffer();
     return false;
   }
 
-  if (Msg.OpCode == Call)
+  // Validate Opcode
+  if (OpCode != Call && OpCode != Hangup) {
+    device_receiveBytes(Buffer, Bytes);
+    errorEx(Buffer, BufferSize, "Received unexpected message op-code: %lu",
+            OpCode);
+    return false;
+  }
+
+  // TODO: At some point, allow to validate endpoint and function addresses!
+  if (OpCode == Call)
     Msg.Handler = reinterpret_cast<RPCEndpoint *>(addr2ptr(TagAddr));
 
-  if (Msg.OpCode != Call && Msg.OpCode != Hangup) {
-    receiveBytes(Buffer, Msg.PayloadBytes);
-    errorEx(Buffer, BufferSize, "Received unexpected message op-code: %lu",
-            Msg.OpCode);
-    return false;
-  }
+  Msg.PayloadBytes = Bytes;
+  Msg.OpCode = OpCode;
+  Msg.SeqID = SeqID;
 
-  return receiveBytes(Buffer, Msg.PayloadBytes);
+  return device_receiveBytes(Buffer, Bytes);
 }
