@@ -8,6 +8,10 @@
 #include <cstddef>
 #include <cstdint>
 
+// Magic sequence is symmetric, we can ignore endianness
+// 00000001 00100011 01010111 10111101 10111101 01010111 00100011 00000001
+static const uint64_t SetupMagic = 0x012357BDBD572301ull;
+
 typedef char* RPCEndpoint(const char *Data, size_t Size);
 
 enum EPCOpCode : uint32_t {

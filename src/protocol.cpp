@@ -23,10 +23,11 @@ void sendMessage(EPCOpCode OpC, uint32_t SeqNo, const char Payload[],
 }
 
 void sendSetupMessage(char Buffer[], SetupInfo Info) {
-  // Magic sequence is symmetric, we can ignore endianness
-  // 00000001 00100011 01010111 10111101 10111101 01010111 00100011 00000001
-  static const uint64_t SetupMagic = 0x012357BDBD572301ull;
-  sendBytes((const char*)&SetupMagic, sizeof(uint64_t));
+#ifdef TEST_RECOVERY_SETUPMAGIC_TRUNCATE
+  device_sendBytes((const char*)&SetupMagic, sizeof(uint32_t));
+#else
+  device_sendBytes((const char*)&SetupMagic, sizeof(uint64_t));
+#endif
 
   char *Data = Buffer;
   Data += writeString(Data, Info.Version);
