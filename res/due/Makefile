@@ -6,8 +6,8 @@
 # device. The relink.py script provides the following environment variables.
 #
 # Tools:
-# HOST_CXX: C++ compiler for the host machine (arm-none-eabi-g++)
-# CXX: 			C++ compiler for the target device (clang++ 13 or g++ 9.4)
+# HOST_CXX: C++ compiler for the host machine (clang++ 13 or g++ 9.4)
+# CXX: 			C++ compiler for the target device (PlatformIO arm-none-eabi-g++)
 # NM:				Name mangling tool for target device binaries (llvm-nm 13)
 # OBJCOPY: 	LLVM object tool (llvm-objcopy 13)
 #
@@ -16,15 +16,17 @@
 # RELINK_DIR: Local directory for temporary files (/path/to/.relink/due)
 # BUILD_DIR: Local PlatformIO build directory (/path/to/.pio/build/due)
 # TOOLS_DIR: Local  directory (/path/to/tools)
+#
 .DEFAULT_GOAL := $(RELINK_DIR)/firmware.elf
 
 # There should be two archives (arduino core and variant) and a number of objects
 arduino_archives := $(shell find $(BUILD_DIR) -name '*.a')
 firmware_objects := $(shell find $(BUILD_DIR)/src -name '*.o')
 
-#$(info Firmware objects: $(firmware_objects))
-#$(info Arduino archives: $(arduino_archives))
-#$(info Device library paths: $(DEVICE_LIB_DIR))
+# Debug output:
+# $(info Firmware objects: $(firmware_objects))
+# $(info Arduino archives: $(arduino_archives))
+# $(info Device library paths: $(DEVICE_LIB_DIR))
 
 # Linker flags (TODO: integrate with platformio)
 input_gc := $(firmware_objects) $(arduino_archives)
@@ -33,6 +35,9 @@ common_flags := -Wl,--warn-common -Wl,--warn-section-align -Wl,--unresolved-symb
 pretend_undefined := -u _sbrk -u link -u _close -u _fstat -u _isatty -u _lseek -u _read -u _write -u _exit -u kill -u _getpid
 LDFLAGS := -T ez-clang.ld -mcpu=cortex-m3 -mthumb $(pretend_undefined) $(common_flags)
 #-Wl,--whole-archive
+
+# Linker debug output:
+# LDFLAGS := -v $(LDFLAGS)
 
 # Link regular firmware ELF (without input_ez)
 $(RELINK_DIR)/firmware-template.elf: $(input_gc)

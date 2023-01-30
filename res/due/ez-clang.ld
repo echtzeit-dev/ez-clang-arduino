@@ -102,15 +102,15 @@ SECTIONS
 
     .ez :
     {
-      . = ALIGN(4);
-      _ssymtab = .;
-      KEEP (*(.ez.symtab))
-      _esymtab = .;
+        . = ALIGN(4);
+        _ssymtab = .;
+        KEEP (*(.ez.symtab))
+        _esymtab = .;
 
-      . = ALIGN(4);
-      _sstrtab = .;
-      KEEP (*(.ez.strtab))
-      _estrtab = .;
+        . = ALIGN(4);
+        _sstrtab = .;
+        KEEP (*(.ez.strtab))
+        _estrtab = .;
     } > rom
 
     . = ALIGN(4);
