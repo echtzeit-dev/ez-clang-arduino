@@ -44,9 +44,10 @@ bool receiveMessage(char Buffer[], uint32_t BufferSize, HeaderInfo &Msg);
 void sendMessage(EPCOpCode OpC, uint32_t SeqID, const char Payload[],
                  uint32_t NumArgBytes);
 
+void waitForHandshake();
+
 void sendSetupMessage(char Buffer[], SetupInfo Info);
 
 void sendHangupMessage(uint8_t ErrCode);
-
 
 #endif // EZ_PROTOCOL_H

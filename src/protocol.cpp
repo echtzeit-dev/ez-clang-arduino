@@ -22,6 +22,22 @@ void sendMessage(EPCOpCode OpC, uint32_t SeqNo, const char Payload[],
   device_sendBytes(Payload, PayloadSize);
 }
 
+void waitForHandshake() {
+  const char *Begin = reinterpret_cast<const char *>(&SetupMagic);
+  const char *End = Begin + sizeof(SetupMagic);
+  const char *Expected = Begin;
+  char Actual;
+  while (Expected < End) {
+    if (device_receiveBytes(&Actual, 1)) {
+      if (Actual == *Expected) {
+        Expected += 1;
+      } else {
+        Expected = Begin;
+      }
+    }
+  }
+}
+
 void sendSetupMessage(char Buffer[], SetupInfo Info) {
 #ifdef TEST_RECOVERY_SETUPMAGIC_TRUNCATE
   device_sendBytes((const char*)&SetupMagic, sizeof(uint32_t));
