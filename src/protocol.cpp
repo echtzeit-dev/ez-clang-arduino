@@ -18,8 +18,8 @@ void sendMessage(EPCOpCode OpC, uint32_t SeqNo, const char Payload[],
   Data += writeUInt64(Data, OpC);
   Data += writeUInt64(Data, SeqNo);
   Data += writeUInt64(Data, 0);
-  sendBytes(HeaderBuffer, MessageHeaderSize);
-  sendBytes(Payload, PayloadSize);
+  device_sendBytes(HeaderBuffer, MessageHeaderSize);
+  device_sendBytes(Payload, PayloadSize);
 }
 
 void sendSetupMessage(char Buffer[], SetupInfo Info) {

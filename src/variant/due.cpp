@@ -6,49 +6,57 @@
 
 #include "Arduino.h"
 
-void setupSendReceive() {
-  // Configure serial stream @ 9600 baud via UART
-  Serial.begin(9600, UARTClass::Mode_8N1);
-
-  // We always receive data synchronously, no need for interrupts
-  NVIC_DisableIRQ(UART_IRQn);
+void device_setupSendReceive() {
+  // CDC serial channel @ 9600 baud
+  Serial.begin(9600);
 
   // Discard any existing data (host will connect and send data only after
   // receiving the setup message)
-  flushReceiveBuffer();
+  device_flushReceiveBuffer();
 }
 
-bool receiveBytes(char Buffer[], uint32_t Count) {
-  // Read from in-bound FIFO directly
-  for (uint32_t i = 0; i < Count; i += 1) {
-    while ((UART->UART_SR & UART_SR_RXRDY) == 0);
-    Buffer[i] = UART->UART_RHR;
+bool device_receiveBytes(char Buffer[], uint32_t Count) {
+  uint32_t Received = 0;
+  while (Received < Count) {
+    Received += Serial.readBytes(Buffer + Received, Count - Received);
   }
   return true;
 }
 
-void sendBytes(const char *Buffer, size_t Size) {
-  // Write to out-bound FIFO directly
-  for (uint32_t i = 0; i < Size; i += 1) {
-    while ((UART->UART_SR & UART_SR_TXRDY) == 0);
-    UART->UART_THR = Buffer[i];
-  }
-
-  // Wait for transmission to complete
-  while ((UART->UART_SR & UART_SR_TXEMPTY) == 0);
+void device_sendBytes(const char *Buffer, size_t Size) {
+  Serial.write(Buffer, Size);
 }
 
-void flushReceiveBuffer() {
-  while ((UART->UART_SR & UART_SR_RXRDY) != 0)
-    UART->UART_RHR;
+void device_flushReceiveBuffer() {
+  Serial.flush();
 }
 
-void notifyReady() {
+void device_notifyBoot() {
+  // Blink LED slowly and leave it off
   pinMode(LED_BUILTIN, OUTPUT);
+  for (int i = 0; i < 3; ++i) {
+    digitalWrite(LED_BUILTIN, HIGH);
+    delay(500);
+    digitalWrite(LED_BUILTIN, LOW);
+    delay(500);
+  }
+}
+
+void device_notifyReady() {
   digitalWrite(LED_BUILTIN, HIGH); // Turn on LED
 }
 
-void notifyShutdown() {
-  pinMode(LED_BUILTIN, OUTPUT);
+void device_notifyTick() {
+  // Blink LED quickly
+  for (int i = 0; i < 1; ++i) {
+    digitalWrite(LED_BUILTIN, LOW);
+    delay(50);
+    digitalWrite(LED_BUILTIN, HIGH);
+    delay(50);
+  }
+}
+
+void device_notifyShutdown() {
   digitalWrite(LED_BUILTIN, LOW); // Turn off LED
+  delay(500);
 }

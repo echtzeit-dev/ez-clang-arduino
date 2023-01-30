@@ -1,17 +1,18 @@
-#ifndef EZ_SERIAL_H
-#define EZ_SERIAL_H
+#ifndef EZ_DEVICE_H
+#define EZ_DEVICE_H
 
 #include <cstddef>
 #include <cstdint>
 
-void notifyReady();
-void notifyShutdown();
+void device_notifyBoot();
+void device_notifyReady();
+void device_notifyTick();
+void device_notifyShutdown();
 
-void setupSendReceive();
-void sendBytes(const char *Buffer, size_t Size);
-bool receiveBytes(char Buffer[], uint32_t Count);
+void device_setupSendReceive();
+void device_sendBytes(const char *Buffer, size_t Size);
+bool device_receiveBytes(char Buffer[], uint32_t Count);
 
-void flushReceiveBuffer();
-void flushBytes(char Buffer[], uint32_t Count);
+void device_flushReceiveBuffer();
 
-#endif // EZ_SERIAL_H
+#endif // EZ_DEVICE_H
