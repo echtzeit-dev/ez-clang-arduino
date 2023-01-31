@@ -16,7 +16,7 @@ def adafruit_metro_m0_relink_after_build(target, source, env):
 
   # Primary toolchain is GCC
   gcc_binary_dir = make_env.get("GCC_BIN") or \
-                   make_env["HOME"] + "/.platformio/packages/toolchain-gccarmnoneeabi@1.90201.191206/bin"
+                   make_env["HOME"] + "/.platformio/packages/toolchain-gccarmnoneeabi/bin"
   if not os.path.isdir(gcc_binary_dir):
     print("Cannot find matching GCC binary directory:", gcc_binary_dir,
           "Please set your 'GCC_BIN' environment variable appropriately.")
@@ -31,7 +31,7 @@ def adafruit_metro_m0_relink_after_build(target, source, env):
 
   # Makefile needs libarm_cortexM0l_math.a
   cmsis_dir = make_env.get("CMSIS_LIB") or \
-                make_env["HOME"] + "/.platformio/packages/framework-cmsis@2.50400.181126/CMSIS/Lib"
+                make_env["HOME"] + "/.platformio/packages/framework-cmsis/CMSIS/Lib"
   if not os.path.isdir(cmsis_dir) or not os.path.isabs(cmsis_dir):
     print("Cannot find matching framework-cmsis:", cmsis_dir,
           "Please set your 'CMSIS_LIB' environment variable appropriately.")
